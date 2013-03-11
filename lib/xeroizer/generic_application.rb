@@ -1,5 +1,11 @@
 require 'xeroizer/record/application_helper'
 
+class Balls
+  def info(msg)
+    puts msg
+  end
+end
+
 module Xeroizer
   class GenericApplication
     
@@ -47,6 +53,7 @@ module Xeroizer
         @xero_url = options[:xero_url] || "https://api.xero.com/api.xro/2.0"
         @rate_limit_sleep = options[:rate_limit_sleep] || false
         @rate_limit_max_attempts = options[:rate_limit_max_attempts] || 5
+        @logger = Balls.new
         @client   = OAuth.new(consumer_key, consumer_secret, options)
       end
           
