@@ -97,6 +97,7 @@ module Xeroizer
         end
 
         def mark_dirty(resource)
+          puts "*** mark_dirty called for #<#{resource.class.name} #{resource.object_id}>"
           @objects[model_class] ||= {}
           @objects[model_class][resource.object_id] ||= Ref::WeakReference.new(resource)
         end
