@@ -177,8 +177,8 @@ module Xeroizer
         def to_bulk_xml(records, builder = Builder::XmlMarkup.new(:indent => 2))
           tag = (self.class.optional_xml_root_name || model_name).pluralize
           builder.tag!(tag) do
-            records.map {|r| r.to_xml(builder) }
-          end
+            records.map {|r| puts "YARR FOO #{r.to_xml}\nYARR BAR #{r.to_xml(builder)}\n"; r.to_xml(builder) }
+          end.tap {|b| puts "FINAL BUILDER STUFF: #{b.inspect}\n" }
         end
 
         # Parse the response from a create/update request.
