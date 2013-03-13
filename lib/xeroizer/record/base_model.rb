@@ -103,6 +103,7 @@ module Xeroizer
         end
 
         def mark_clean(resource)
+          puts "*** mark_clean called for #<#{resource.class.name} #{resource.object_id}>"
           if @objects[model_class]
             @objects[model_class].delete(resource.object_id)
           end
