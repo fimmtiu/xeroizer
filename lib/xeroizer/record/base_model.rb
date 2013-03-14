@@ -141,6 +141,7 @@ module Xeroizer
         end
 
         def save_all
+          exit! 99
           if @objects[model_class]
             actions = @objects[model_class].values.group_by {|o| o.object.new_record? ? :http_put : :http_post }
             actions.each_pair do |http_method, records|
