@@ -142,7 +142,8 @@ module Xeroizer
 
         def save_all
           if @objects[model_class]
-            actions = @objects[model_class].values.group_by {|o| o.object.new_record? ? :http_put : :http_post }
+            actions = @objects[model_class].values.group_by {|o| o.object.new_record? ? :http_post : :http_put }
+            puts "ACTIONS = #{actions.inspect}"
             actions.each_pair do |http_method, records|
               return false unless records.all? {|r| r.object.valid? }
               records.map!(&:object)
