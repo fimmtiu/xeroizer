@@ -142,10 +142,10 @@ module Xeroizer
 
         def save_all
           if @objects[model_class]
+            return false unless @objects[model_class].all? {|o| o.object.valid? }
             actions = @objects[model_class].values.group_by {|o| o.object.new_record? ? :http_post : :http_put }
             puts "ACTIONS = #{actions.inspect}"
             actions.each_pair do |http_method, records|
-              return false unless records.all? {|r| r.object.valid? }
               records.map!(&:object)
               puts "WHAFUCK: #{records.inspect}"
               request = to_bulk_xml(records)
@@ -161,6 +161,7 @@ module Xeroizer
               end
             end
           end
+          true
         end
 
         def parse_response(response_xml, options = {})
