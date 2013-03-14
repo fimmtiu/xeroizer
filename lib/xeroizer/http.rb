@@ -38,7 +38,6 @@ module Xeroizer
     private
     
       def http_request(client, method, url, body, params = {})
-        raise "TITS: #{method}, #{url}, #{body}, #{params}"
         # headers = {'Accept-Encoding' => 'gzip, deflate'}
 
         headers = { 'charset' => 'utf-8' }
