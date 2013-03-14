@@ -148,7 +148,7 @@ module Xeroizer
               records.map!(&:object)
               puts "WHAFUCK: #{records.inspect}"
               request = to_bulk_xml(records)
-              response = parse_response(self.send(http_method, request))
+              response = parse_response(self.send(http_method, request, summarizeErrors: false))
               puts "RESPONSE: #{response.inspect}"
               response.response_items.each_with_index do |record, i|
                 puts "*** Record ##{i}: #{record.object_id} #{record.inspect}"
