@@ -183,7 +183,8 @@ module Xeroizer
         def to_bulk_xml(records, builder = Builder::XmlMarkup.new(:indent => 2))
           tag = (self.class.optional_xml_root_name || model_name).pluralize
           builder.tag!(tag) do
-            records.map {|r| puts "YARR FOO #{r.object_id} #{r}\n#{r.to_xml}\nYARR BAR #{r.to_xml(builder)}\n"; r.to_xml(builder) }
+            # records.map {|r| puts "YARR FOO #{r.object_id} #{r}\n#{r.to_xml}\nYARR BAR #{r.to_xml(builder)}\n"; r.to_xml(builder) }
+            records.map(&:to_xml)
           end.tap {|b| puts "FINAL BUILDER STUFF: #{b.inspect}\n" }
         end
 
