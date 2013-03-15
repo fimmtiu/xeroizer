@@ -145,8 +145,8 @@ module Xeroizer
             return false unless @objects[model_class].values.all? {|o| o.object.valid? }
             actions = @objects[model_class].values.group_by {|o| o.object.new_record? ? :http_post : :http_put }
             actions.each_pair do |http_method, records|
-              puts "ACTIONS (#{http_method}) = #{records.map(&:name).sort.inspect}"
               records.map!(&:object)
+              puts "ACTIONS (#{http_method}) = #{records.map(&:name).sort.inspect}"
               puts "WHAFUCK: #{records.inspect}"
               request = to_bulk_xml(records)
               response = parse_response(self.send(http_method, request, summarizeErrors: false))
