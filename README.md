@@ -448,6 +448,7 @@ contact3 = xero.Contact.build(some_more_attributes)
 xero.Contact.save_all
 ```
 
+
 `save_all` will issue one POST request for all new Contact records that
 haven't been saved yet, and one PUT request for all existing Contact
 records with unsaved changes. If any of the unsaved records aren't valid,

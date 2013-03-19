@@ -149,8 +149,7 @@ module Xeroizer
               puts "ACTIONS (#{http_method}) = #{records.map(&:name).sort.inspect}"
               puts "WHAFUCK: #{records.inspect}"
               request = to_bulk_xml(records)
-              response = parse_response(self.send(http_method, request, summarizeErrors: false))
-              puts "RESPONSE: #{response.inspect}"
+              response = parse_response(self.send(http_method, request, {:summarizeErrors => false}))
               response.response_items.each_with_index do |record, i|
                 puts "*** Record ##{i}: #{record.object_id} #{record.inspect}"
                 puts "                  #{records[i].object_id} #{records[i].inspect}"
@@ -185,8 +184,8 @@ module Xeroizer
         def to_bulk_xml(records, builder = Builder::XmlMarkup.new(:indent => 2))
           tag = (self.class.optional_xml_root_name || model_name).pluralize
           builder.tag!(tag) do
-            records.each {|r| puts "YARR FOO #{r.object_id} #{r}\n#{r.to_xml}\n"; r.to_xml(builder) }
-          end.tap {|b| puts "FINAL BUILDER STUFF: #{b.inspect}\n" }
+            records.each {|r| r.to_xml(builder) }
+          end
         end
 
         # Parse the response from a create/update request.
