@@ -142,17 +142,13 @@ module Xeroizer
 
         def save_all
           if @objects[model_class]
-            return false unless @objects[model_class].values.all? {|o| o.object.valid? }
-            actions = @objects[model_class].values.group_by {|o| o.object.new_record? ? :http_post : :http_put }
+            objects = @objects[model_class].values.map(&:object).compact
+            return false unless objects.all?(&:valid?)
+            actions = objects.group_by {|o| o.new_record? ? :http_post : :http_put }
             actions.each_pair do |http_method, records|
-              records.map!(&:object)
-              puts "ACTIONS (#{http_method}) = #{records.map(&:name).sort.inspect}"
-              puts "WHAFUCK: #{records.inspect}"
               request = to_bulk_xml(records)
               response = parse_response(self.send(http_method, request, {:summarizeErrors => false}))
               response.response_items.each_with_index do |record, i|
-                puts "*** Record ##{i}: #{record.object_id} #{record.inspect}"
-                puts "                  #{records[i].object_id} #{records[i].inspect}"
                 if record and record.is_a?(model_class)
                   records[i].attributes = record.attributes
                   records[i].saved!
