@@ -105,9 +105,9 @@ module Xeroizer
       })
       update_attributes_from_token(access_token)
     end
-    
-    private 
-    
+
+    private
+
       # Create an OAuth consumer with the SSL client key if specified in @consumer_options when
       # this instance was created.
       def create_consumer
@@ -120,8 +120,13 @@ module Xeroizer
           consumer.http.set_debug_output(@consumer_options[:http_debug_output])
         end
         consumer
+
+        if @consumer_options[:http_debug_output]
+          consumer.http.set_debug_output(@consumer_options[:http_debug_output])
+        end
+        consumer
       end
-      
+
       # Update instance variables with those from the AccessToken.
       def update_attributes_from_token(access_token)
         @expires_at = Time.now + access_token.params[:oauth_expires_in].to_i
@@ -129,6 +134,5 @@ module Xeroizer
         @session_handle = access_token.params[:oauth_session_handle]
         @atoken, @asecret = access_token.token, access_token.secret
       end
-          
   end
 end
