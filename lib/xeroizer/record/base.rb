@@ -27,9 +27,11 @@ module Xeroizer
         # Build a record with attributes set to the value of attributes.
         def build(attributes, parent)
           record = new(parent)
+          puts "NEW #{record.inspect}"
           attributes.each do | key, value |
             record.send("#{key}=".to_sym, value)
           end
+          puts "DONE #{record.inspect}"
           record
         end
         
