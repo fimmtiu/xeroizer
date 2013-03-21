@@ -91,7 +91,6 @@ module Xeroizer
         
         # Build a record with attributes set to the value of attributes.
         def build(attributes = {})
-	  puts "MODEL CLASS #{model_class}"
           model_class.build(attributes, self).tap do |resource|
             mark_dirty(resource)
           end
