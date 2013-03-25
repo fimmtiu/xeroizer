@@ -138,10 +138,12 @@ module Xeroizer
           result
         end
 
+        puts "YARR 2"
         def batch_save
           @objects = {}
           @allow_batch_operations = true
 
+          puts "TITS 2"
           yield
 
           if @objects[model_class]
