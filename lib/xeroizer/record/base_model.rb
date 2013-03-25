@@ -143,8 +143,8 @@ module Xeroizer
           @objects = {}
           @allow_batch_operations = true
 
-          puts "TITS 2"
           yield
+          puts "TITS 2 #{@objects.inspect}"
 
           if @objects[model_class]
             objects = @objects[model_class].values.compact
