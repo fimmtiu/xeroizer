@@ -15,7 +15,6 @@ module Xeroizer
         def build_from_node(node, parent)
           record = new(parent)
           node.elements.each do | element |
-            puts "FIELDS = #{self.fields.inspect}"
             field = self.fields[element.name.to_s.underscore.to_sym]
             if field
               value = case field[:type]

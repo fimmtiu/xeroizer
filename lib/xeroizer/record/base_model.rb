@@ -138,14 +138,12 @@ module Xeroizer
           result
         end
 
-        puts "YARR 2"
         def batch_save
           @objects = {}
           @allow_batch_operations = true
           exceptions = []
 
           yield
-          puts "TITS 2 #{@objects.inspect}"
 
           if @objects[model_class]
             objects = @objects[model_class].values.compact
@@ -154,7 +152,6 @@ module Xeroizer
             actions.each_pair do |http_method, records|
               request = to_bulk_xml(records)
               response = parse_response(self.send(http_method, request, {:summarizeErrors => false}))
-              puts "RESPONSE: #{response.inspect}"
               response.response_items.each_with_index do |record, i|
                 if record and record.is_a?(model_class)
                   records[i].attributes = record.attributes
@@ -183,8 +180,14 @@ module Xeroizer
         # Parse the records part of the XML response and builds model instances as necessary.
         def parse_records(response, elements)
           elements.each do | element |
-            puts "ELEMENT = #{element.inspect}"
-            response.response_items << model_class.build_from_node(element, self)
+            new_record = model_class.build_from_node(element, self)
+            if element.attribute('status').try(:value) == 'ERROR'
+              new_record.errors = []
+              element.xpath('//ValidationError').each do |err|
+                new_record.errors << err.text.gsub(/^\s+/, '').gsub(/\s+$/, '')
+              end
+            end
+            response.response_items << new_record
           end
         end
 
