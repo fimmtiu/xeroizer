@@ -183,6 +183,7 @@ module Xeroizer
         # Parse the records part of the XML response and builds model instances as necessary.
         def parse_records(response, elements)
           elements.each do | element |
+            puts "ELEMENT = #{element.inspect}"
             response.response_items << model_class.build_from_node(element, self)
           end
         end
