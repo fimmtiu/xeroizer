@@ -15,12 +15,12 @@ module Xeroizer
       # @param [Hash] options other options to pass to the GenericApplication constructor
       # @return [PrivateApplication] instance of PrivateApplication
       def initialize(consumer_key, consumer_secret, path_to_private_key, options = {})
-        puts "Options before: #{options.inspect}"
+        Rails.logger.warn " *** Options before: #{options.inspect}"
         options.merge!(
           :signature_method => 'RSA-SHA1',
           :private_key_file => path_to_private_key
         )
-        puts "Options after: #{options.inspect}"
+        Rails.logger.warn " *** Options after: #{options.inspect}"
         super(consumer_key, consumer_secret, options)      
         @client.authorize_from_access(consumer_key, consumer_secret)
       end
