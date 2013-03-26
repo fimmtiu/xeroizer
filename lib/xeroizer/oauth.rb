@@ -48,7 +48,7 @@ module Xeroizer
     # @option options [String] :ca_file file containing SSL root certificates (default: "lib/xeroizer/ca-certificates.crt")
     # @option options [String] :private_key_file private key used when :signature_method set to RSA-SHA1 (used for PartnerApplication and PrivateApplication modes)
     # @option options [String] :request_token_path base URL path for getting a RequestToken (default: "/oauth/RequestToken")
-    # @option options [String] :signature_method method usd to sign requests (default: OAuth library default)
+    # @option options [String] :signature_method method used to sign requests (default: OAuth library default)
     # @option options [String] :site base site for API requests (default: "https://api.xero.com")
     # @option options [IO] :http_debug_output filehandle to write HTTP traffic to
     # @option options [OpenSSL:X509::Certificate] :ssl_client_cert client-side SSL certificate to use for requests (used for PartnerApplication mode)
