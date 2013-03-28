@@ -146,7 +146,9 @@ module Xeroizer
           yield
 
           if @objects[model_class]
+            puts "OBJECTS #{@objects.inspect}"
             objects = @objects[model_class].values.compact
+            puts "VALID #{objects.all?(&:valid?)}"
             return false unless objects.all?(&:valid?)
             actions = objects.group_by {|o| o.new_record? ? :http_put : :http_post }
             actions.each_pair do |http_method, records|
