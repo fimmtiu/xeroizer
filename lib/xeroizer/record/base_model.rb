@@ -141,22 +141,17 @@ module Xeroizer
         def batch_save
           @objects = {}
           @allow_batch_operations = true
-          exceptions = []
 
           yield
 
           if @objects[model_class]
-            puts "OBJECTS #{@objects.inspect}"
             objects = @objects[model_class].values.compact
-            puts "VALID #{objects.all?(&:valid?)}"
             return false unless objects.all?(&:valid?)
             actions = objects.group_by {|o| o.new_record? ? :http_put : :http_post }
             actions.each_pair do |http_method, records|
-              puts "RECORDS #{records.inspect}"
               request = to_bulk_xml(records)
               response = parse_response(self.send(http_method, request, {:summarizeErrors => false}))
               response.response_items.each_with_index do |record, i|
-                puts "R #{record.inspect} ISA #{record.is_a?(model_class)}"
                 if record and record.is_a?(model_class)
                   records[i].attributes = record.attributes
                   records[i].saved!
@@ -165,7 +160,6 @@ module Xeroizer
             end
           end
 
-          puts "SAVED THIS SHIT"
           @objects = {}
           @allow_batch_operations = false
           true

@@ -40,6 +40,7 @@ module Xeroizer
       def http_request(client, method, url, body, params = {})
         # headers = {'Accept-Encoding' => 'gzip, deflate'}
 
+        puts "YARRRRRRRRRRR MATEY #{method.inspect} #{params.inspect}"
         headers = { 'charset' => 'utf-8' }
 
         if method != :get
@@ -85,6 +86,7 @@ module Xeroizer
             end
           end
 
+          puts "RESPONSE #{response.code.inspect}"
           case response.code.to_i
             when 200
               response.plain_body
@@ -100,6 +102,7 @@ module Xeroizer
               raise "Unknown response code: #{response.code.to_i}"
           end
         rescue Xeroizer::OAuth::RateLimitExceeded
+          puts "SHITFUCK RATE LIMIT"
           if self.rate_limit_sleep
             raise if attempts > rate_limit_max_attempts
             logger.info("== Rate limit exceeded, retrying") if self.logger
