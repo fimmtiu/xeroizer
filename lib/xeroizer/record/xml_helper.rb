@@ -48,7 +48,7 @@ module Xeroizer
             end
           end
 
-          # parent.mark_clean(record)
+          parent.mark_clean(record)
           record
         end
         

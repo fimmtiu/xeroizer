@@ -85,6 +85,8 @@ module Xeroizer
             end
           end
 
+	Rails.logger.warn "RESPONSE FROM XERO:\n#{response.plain_body}"
+
           case response.code.to_i
             when 200
               response.plain_body
