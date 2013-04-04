@@ -184,7 +184,7 @@ module Xeroizer
             puts "VALUE = #{element.attribute('status').try(:value).inspect}"
             if element.attribute('status').try(:value) == 'ERROR'
               new_record.errors = []
-              element.xpath('ValidationError').each do |err|
+              element.xpath('.//ValidationError').each do |err|
                 puts "ERR = #{err.text.inspect}"
                 new_record.errors << err.text.gsub(/^\s+/, '').gsub(/\s+$/, '')
               end
