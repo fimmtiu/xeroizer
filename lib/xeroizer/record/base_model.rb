@@ -156,8 +156,10 @@ module Xeroizer
                 puts "THIS SHOULD HAVE AN ERROR II: ELECTRIC BUGALOO: #{record.errors.inspect}"
                 if record and record.is_a?(model_class)
                   records[i].attributes = record.attributes
+                  records[i].errors = record.errors
                   records[i].saved!
                 end
+                puts "THIS SHOULD STILL HAVE AN ERROR: #{records[i].errors.inspect}"
               end
             end
           end
