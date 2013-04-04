@@ -152,6 +152,8 @@ module Xeroizer
               request = to_bulk_xml(records)
               response = parse_response(self.send(http_method, request, {:summarizeErrors => false}))
               response.response_items.each_with_index do |record, i|
+                puts "THIS SHOULD HAVE AN ERROR: #{new_record.inspect}"
+                puts "THIS SHOULD HAVE AN ERROR II: ELECTRIC BUGALOO: #{new_record.errors.inspect}"
                 if record and record.is_a?(model_class)
                   records[i].attributes = record.attributes
                   records[i].saved!
@@ -189,6 +191,8 @@ module Xeroizer
                 new_record.errors << err.text.gsub(/^\s+/, '').gsub(/\s+$/, '')
               end
             end
+            puts "HERE'S MY ERRORS: #{new_record.errors.inspect}"
+            puts "HERE'S MY SELF: #{new_record.inspect}"
             response.response_items << new_record
           end
         end
