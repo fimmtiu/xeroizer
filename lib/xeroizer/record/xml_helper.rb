@@ -107,6 +107,7 @@ module Xeroizer
                 real_value = case value
                   when Date         then value.strftime("%Y-%m-%d")
                   when Time         then value.utc.strftime("%Y-%m-%d")
+                  when String       then Date.parse(value).strftime("%Y-%m-%d")
                 end
                 b.tag!(field[:api_name], real_value)
                 
