@@ -140,7 +140,9 @@ module Xeroizer
           result
         end
 
-        def batch_save(chunk_size = DEFAULT_RECORDS_PER_BATCH_SAVE)
+        def batch_save(options = {})
+          chunk_size = options[:chunk_size] || DEFAULT_RECORDS_PER_BATCH_SAVE
+          http_method = options[:http_method]
           no_errors = true
           @objects = {}
           @allow_batch_operations = true
@@ -150,7 +152,7 @@ module Xeroizer
           if @objects[model_class]
             objects = @objects[model_class].values.compact
             return false unless objects.all?(&:valid?)
-            actions = objects.group_by {|o| o.new_record? ? :http_put : create_method }
+            actions = objects.group_by {|o| http_method || http_method_for_object(o) }
             actions.each_pair do |http_method, records|
               records.each_slice(chunk_size) do |some_records|
                 request = to_bulk_xml(some_records)
@@ -179,6 +181,10 @@ module Xeroizer
               parse_records(response, elements)
             end
           end
+        end
+
+        def http_method_for_object(object)
+          object.new_record? ? :http_put : create_method
         end
 
         def create_method
