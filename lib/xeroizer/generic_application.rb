@@ -12,6 +12,7 @@ module Xeroizer
     def_delegators :client, :access_token
 
     record :Account
+    record :Allocation    # This is a hack. --dpt
     record :Attachment
     record :BrandingTheme
     record :Contact
