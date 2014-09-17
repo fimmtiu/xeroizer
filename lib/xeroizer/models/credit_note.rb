@@ -19,7 +19,6 @@ module Xeroizer
             pdf_data
           end
         end
-      
     end
     
     class CreditNote < Base
@@ -119,14 +118,21 @@ module Xeroizer
             attributes[:total]
           end
         end
-        
+
         # Retrieve the PDF version of this credit note.
         # @param [String] filename optional filename to store the PDF in instead of returning the data.
         def pdf(filename = nil)
           parent.pdf(id, filename)
         end
-              
+
+        # Allocates this credit note's credit towards an invoice. Has to be
+        # done as a separate API call because the Xero API is so terrible.
+        def allocate
+          request = allocations.to_xml
+          response = parent.http_put(request)
+          parse_save_response(response)
+        end
+
     end
-    
   end
 end
